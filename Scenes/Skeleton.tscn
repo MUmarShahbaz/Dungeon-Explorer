@@ -1,6 +1,6 @@
 [gd_scene load_steps=47 format=3 uid="uid://mr6l8jqd55tp"]
 
-[ext_resource type="Script" uid="uid://rf7rny4frl5d" path="res://Scripts/enemy.gd" id="1_4ie6e"]
+[ext_resource type="Script" uid="uid://bbhh4mcisvgkm" path="res://Scripts/mobs/skeleton.gd" id="1_rtppx"]
 [ext_resource type="PackedScene" uid="uid://dru5vfd8siwkr" path="res://Scenes/damage_zone.tscn" id="2_qg60r"]
 [ext_resource type="Texture2D" uid="uid://cmiclralbrr2s" path="res://Assets/Mobs/Skeleton/Attack_1.png" id="2_rtppx"]
 [ext_resource type="Texture2D" uid="uid://dwqh02pwwt1ro" path="res://Assets/Mobs/Skeleton/Idle.png" id="2_rxd7e"]
@@ -295,17 +295,20 @@ radius = 12.0
 height = 66.0
 
 [node name="Skeleton" type="CharacterBody2D"]
-script = ExtResource("1_4ie6e")
+z_index = 1
+collision_layer = 2
+script = ExtResource("1_rtppx")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(2, -34)
 sprite_frames = SubResource("SpriteFrames_ddipo")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.151251
 
 [node name="Weapon" parent="." instance=ExtResource("2_qg60r")]
 visible = false
+collision_layer = 2
+collision_mask = 4
 
 [node name="Collider" type="CollisionShape2D" parent="Weapon"]
 position = Vector2(-19.6094, 23.0955)
@@ -318,13 +321,10 @@ position = Vector2(0, -4)
 shape = SubResource("CapsuleShape2D_abfcy")
 
 [node name="Vision_Ray" type="RayCast2D" parent="."]
-target_position = Vector2(100, 0)
-collision_mask = 3
-
-[node name="Obstacle_Left" type="RayCast2D" parent="."]
 visible = false
-target_position = Vector2(-25, 0)
+target_position = Vector2(100, 0)
+collision_mask = 4
 
-[node name="Obstacle_Right" type="RayCast2D" parent="."]
+[node name="Obstacle_Ray" type="RayCast2D" parent="."]
 visible = false
 target_position = Vector2(25, 0)

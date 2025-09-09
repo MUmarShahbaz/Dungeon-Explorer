@@ -2,8 +2,7 @@ extends CharacterBody2D
 class_name Enemy
 
 @onready var vision_ray: RayCast2D = $Vision_Ray
-@onready var obstacle_right: RayCast2D = $Obstacle_Right
-@onready var obstacle_left: RayCast2D = $Obstacle_Left
+@onready var obstacle_ray: RayCast2D = $Obstacle_Ray
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var collider: CollisionShape2D = $Collider
 @onready var weapon: Area2D = $Weapon
@@ -19,13 +18,14 @@ var current_state:states = states.patrol
 # STATS
 var HP: int = 100
 var DMG:int = 10
-var SPD:float = 1.0
+var SPD:float = 100
 var RNG:float = 50
-var VIS:float = 100
+var VIS:float = 150
 var TYP:enemy_type = enemy_type.melee
 
 # Main Loop
 func _physics_process(delta: float) -> void:
+	z_index = int(round(position.y))
 	var closest_player = find_player()
 	match  current_state:
 		states.patrol:
@@ -34,6 +34,7 @@ func _physics_process(delta: float) -> void:
 				current_state = states.pursue
 				return
 		states.pursue:
+			face_player(closest_player)
 			if closest_player == null:
 				current_state = states.patrol
 				return
@@ -59,7 +60,7 @@ func find_player() -> CharacterBody2D:
 	var closest_player_dist = INF
 	for player in players:
 		var player_dir = player.global_position - global_position
-		if player_dir.x*direction < 0 and current_state == states.patrol: # Player is behind patrolling mob
+		if player_dir.x*direction < 0 and current_state == states.patrol and player_dir.length() >= obstacle_check_distance: # Player is behind patrolling mob
 			continue
 		vision_ray.target_position = player_dir.normalized() * min(player_dir.length(), VIS)
 		vision_ray.force_raycast_update()
@@ -74,8 +75,11 @@ func face_player(player: CharacterBody2D) -> void:
 		return
 	var player_dir = player.global_position - global_position
 	if direction*player_dir.x < 0:
-		sprite.flip_h = !sprite.flip_h
-		direction *= -1
+		flip_character()
+
+func flip_character() -> void:
+	sprite.flip_h = !sprite.flip_h
+	direction *= -1
 
 func take_damage(amount: int) -> void:
 	HP -= amount
@@ -89,13 +93,47 @@ func die() -> void:
 	sprite.play("death")
 	queue_free()
 
-@warning_ignore("unused_parameter")
-func  patrol(delta) -> void:
-	return # Should be overwritten by individual enemy types
+func check_obstacle() -> bool:
+	obstacle_ray.target_position = Vector2(direction*obstacle_check_distance,0)
+	obstacle_ray.force_raycast_update()
+	if obstacle_ray.is_colliding():
+		return true
+	return false
 
 @warning_ignore("unused_parameter")
-func  pursue(delta, player: CharacterBody2D) -> void:
-	return # Should be overwritten by individual enemy types
+func  patrol(delta) -> void:
+	sprite.animation = "walk"
+	
+	velocity = Vector2(SPD * (delta * 100) * direction, 0)
+	move_and_slide()
+	
+	if check_obstacle():
+		direction *= -1
+		sprite.flip_h = !sprite.flip_h
+
+@warning_ignore("unused_parameter")
+func pursue(delta: float, player: CharacterBody2D) -> void:
+	sprite.animation = "run"
+	face_player(player)
+
+	var player_dir = (player.global_position - global_position).normalized()
+
+	var separation = Vector2.ZERO
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for enemy in enemies:
+		if enemy.get_instance_id() == self.get_instance_id():
+			continue
+		var offset = global_position - enemy.global_position
+		var distance = offset.length()
+		var min_distance = 100
+		if distance < min_distance:
+			
+			separation += offset.normalized() * (min_distance - distance) / min_distance
+
+	var move_dir = (player_dir + separation).normalized()
+
+	velocity = move_dir * (SPD * 1.5) * (delta * 100)
+	move_and_slide()
 
 @warning_ignore("unused_parameter")
 func  attack_sequence(delta, player: CharacterBody2D) -> void:
