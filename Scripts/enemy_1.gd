@@ -1,21 +1,22 @@
 extends Game_Character
-class_name Enemy
+class_name Enemy_1
 
-var vision_ray: RayCast2D
-var obstacle_ray: RayCast2D
+@onready var vision_ray: RayCast2D = $Vision_Ray
+@onready var obstacle_ray: RayCast2D = $Obstacle_Ray
 
-enum states {idle, patrol, pursue, attacking}
-var current_state
-var obstacle_check_distance:int = 25
+enum states {patrol, pursue, attack, dead}
+enum enemy_type {melee, ranged, boss}
+
+@export var obstacle_check_distance:int = 25
+var current_state:states = states.patrol
 
 # STATS
 @export var SPD:float = 100
-@export var VIS:float = 150
 @export var RNG:float = 50
+@export var VIS:float = 150
+@export var TYP:enemy_type = enemy_type.melee
 
-func _ready() -> void:
-	add_to_group("enemies")
-
+# Main Loop
 func _physics_process(delta: float) -> void:
 	if !alive:
 		return
@@ -25,35 +26,27 @@ func _physics_process(delta: float) -> void:
 		states.patrol:
 			patrol(delta)
 			if closest_player != null:
-				state_update(states.pursue)
+				current_state = states.pursue
+				return
 		states.pursue:
+			face_player(closest_player)
 			if closest_player == null:
-				state_update(states.patrol)
+				current_state = states.patrol
 				return
 			if (closest_player.global_position - global_position).length() <= RNG:
-				state_update(states.attacking)
+				current_state = states.attack
 				return
 			pursue(delta, closest_player)
-		states.attacking:
+		states.attack:
 			if closest_player == null or (closest_player.global_position - global_position).length() >= RNG:
-				state_update(states.patrol)
+				current_state =  states.pursue
 				is_attacking = false
 				return
-			attack()
+			attack_sequence()
 
-func state_update(new_state: states):
-	if !alive or hurting:
-		return
-	match new_state:
-		states.idle:
-			sprite.play("idle")
-		states.patrol:
-			sprite.play("walk")
-		states.pursue:
-			sprite.play("run")
-	current_state = new_state
-
-# Misc funcs
+# Behaviors
+func _ready() -> void:
+	add_to_group("enemies")
 
 func find_player() -> CharacterBody2D:
 	var players = get_tree().get_nodes_in_group("players")
@@ -87,17 +80,21 @@ func check_obstacle() -> bool:
 		return true
 	return false
 
-# Behavior
-
-func patrol(delta):
+func patrol(delta) -> void:
+	sprite.animation = "walk"
+	
 	velocity = Vector2(SPD * (delta * 100) * direction, 0)
 	move_and_slide()
+	
 	if check_obstacle():
 		flip()
-	
-func pursue(delta, player):
+
+func pursue(delta: float, player: CharacterBody2D) -> void:
+	sprite.animation = "run"
 	face_player(player)
+
 	var player_dir = (player.global_position - global_position).normalized()
+
 	var separation = Vector2.ZERO
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for enemy in enemies:
@@ -107,17 +104,20 @@ func pursue(delta, player):
 		var distance = offset.length()
 		var min_distance = 100
 		if distance < min_distance:
+			
 			separation += offset.normalized() * (min_distance - distance) / min_distance
+
 	var move_dir = (player_dir + separation).normalized()
+
 	velocity = move_dir * (SPD * 1.5) * (delta * 100)
 	move_and_slide()
 
-# Attacking
-var combo = []
-var next_attack = 0
-var is_attacking:bool = false
 
-func attack():
+var combo = [] # Overwrite with animation frames
+var next_attack = 0
+var is_attacking = false
+
+func attack_sequence() -> void:
 	if is_attacking:
 		return
 	is_attacking = true
