@@ -406,13 +406,15 @@ ATK = 20
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_12lcv")
-animation = &"attack_3"
+animation = &"idle"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, 1)
 shape = SubResource("CapsuleShape2D_siapn")
 
 [node name="Attack_1_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 monitoring = false
 
@@ -420,6 +422,7 @@ monitoring = false
 polygon = PackedVector2Array(0, 0, 56, 25, 65, 10, 68, -6, 65, -22, 50, -43)
 
 [node name="Attack_2_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 monitoring = false
 
@@ -427,6 +430,7 @@ monitoring = false
 polygon = PackedVector2Array(0, 0, 35, -40, 48, -36, 61, -25, 62, -14, 58, 2, 41, 18, 30, 21)
 
 [node name="Attack_3_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 2
 monitoring = false
 

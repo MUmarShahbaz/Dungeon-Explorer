@@ -11,6 +11,7 @@ var current_state
 
 func _ready() -> void:
 	add_to_group("players")
+	default_state = states.idle
 
 func state_update(new_state: states):
 	if !alive or hurting or primary_attacking or new_state == current_state:
@@ -46,6 +47,7 @@ func _process(delta: float) -> void:
 			attack_buffer = false
 
 func _animation_finished() -> void:
+	super._animation_finished()
 	primary_attacking = false
 	if attack_buffer:
 		next_attack = (next_attack + 1) % combo.size()

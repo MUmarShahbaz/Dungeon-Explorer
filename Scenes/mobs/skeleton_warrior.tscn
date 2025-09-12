@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://mr6l8jqd55tp"]
+[gd_scene load_steps=56 format=3 uid="uid://mr6l8jqd55tp"]
 
 [ext_resource type="Script" uid="uid://dg3np4rgucri5" path="res://Scripts/mobs/skeleton_warrior.gd" id="1_rtppx"]
 [ext_resource type="Texture2D" uid="uid://ckkln52iinrh6" path="res://Assets/Mobs/Skeleton_Warrior/Attack_1.png" id="2_yek4v"]
@@ -358,6 +358,9 @@ animations = [{
 radius = 9.0
 height = 56.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xpnwl"]
+size = Vector2(25, 56)
+
 [node name="Skeleton Warrior" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
@@ -371,17 +374,31 @@ autoplay = "idle"
 offset = Vector2(0, -35)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_abfcy")
 
 [node name="Vision_Ray" type="RayCast2D" parent="."]
+visible = false
 target_position = Vector2(100, 0)
 collision_mask = 5
 
-[node name="Obstacle_Ray" type="RayCast2D" parent="."]
-target_position = Vector2(25, 0)
+[node name="Obstacle_Check_Left" type="Area2D" parent="."]
+visible = false
+position = Vector2(-22.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle_Check_Left"]
+shape = SubResource("RectangleShape2D_xpnwl")
+
+[node name="Obstacle_Check_Right" type="Area2D" parent="."]
+visible = false
+position = Vector2(20.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle_Check_Right"]
+shape = SubResource("RectangleShape2D_xpnwl")
 
 [node name="Attack_1_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 4
 monitoring = false
 
@@ -389,6 +406,7 @@ monitoring = false
 polygon = PackedVector2Array(0, 0, 44, -50, 55, -43, 60, -26, 48, 0, 21, 20, 0, 0)
 
 [node name="Attack_2_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 4
 monitoring = false
 
@@ -396,6 +414,7 @@ monitoring = false
 polygon = PackedVector2Array(0, 0, 15, -48, 38, -50, 57, -38, 63, -21, 52, -3, 0, 0)
 
 [node name="Attack_3_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 4
 monitoring = false
 

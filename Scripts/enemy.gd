@@ -2,7 +2,8 @@ extends Game_Character
 class_name Enemy
 
 var vision_ray: RayCast2D
-var obstacle_ray: RayCast2D
+var obstacle_check_left: Area2D
+var obstacle_check_right: Area2D
 
 enum states {idle, patrol, pursue, attacking}
 var current_state
@@ -15,6 +16,7 @@ var obstacle_check_distance:int = 25
 
 func _ready() -> void:
 	add_to_group("enemies")
+	default_state = states.patrol
 
 func _physics_process(delta: float) -> void:
 	if !alive:
@@ -81,11 +83,10 @@ func face_player(player: CharacterBody2D) -> void:
 		flip()
 
 func check_obstacle() -> bool:
-	obstacle_ray.target_position = Vector2(direction*obstacle_check_distance,0)
-	obstacle_ray.force_raycast_update()
-	if obstacle_ray.is_colliding():
-		return true
-	return false
+	if direction == 1:
+		return obstacle_check_right.get_overlapping_bodies().size() > 0
+	else:
+		return obstacle_check_left.get_overlapping_bodies().size() > 0
 
 # Behavior
 
@@ -124,6 +125,7 @@ func attack():
 	sprite.play(combo[next_attack])
 
 func _animation_finished() -> void:
+	super._animation_finished()
 	var player = find_player()
 	if player and (find_player().global_position - global_position).length() > RNG:
 		next_attack = 0

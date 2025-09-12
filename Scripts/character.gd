@@ -14,6 +14,7 @@ var hurting:bool = false
 @export var DEF:int = 10
 
 var current_HP:int
+var default_state
 
 func _physics_process(_delta: float) -> void:
 	if !alive:
@@ -44,8 +45,6 @@ func take_damage(amount: int) -> void:
 		die()
 	else:
 		sprite.play("hurt")
-		await sprite.animation_finished
-		hurting = false
 
 func die() -> void:
 	alive = false
@@ -53,3 +52,11 @@ func die() -> void:
 	sprite.play("die")
 	await sprite.animation_finished
 	queue_free()
+
+func _animation_finished():
+	if hurting == true:
+		hurting = false
+		state_update(default_state)
+
+func state_update(new):
+	return

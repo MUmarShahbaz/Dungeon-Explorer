@@ -9,7 +9,8 @@ func _ready():
 	sprite = $Sprite
 	collider = $Collider
 	vision_ray = $Vision_Ray
-	obstacle_ray = $Obstacle_Ray
+	obstacle_check_left = $Obstacle_Check_Left
+	obstacle_check_right = $Obstacle_Check_Right
 	connect_animations()
 	combo = ["attack_1", "attack_2", "attack_3"]
 	current_HP = HP

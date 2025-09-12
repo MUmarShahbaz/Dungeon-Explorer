@@ -10,16 +10,15 @@ func _ready() -> void:
 	sprite = $Sprite
 	collider = $Collider
 	connect_animations()
-	controller = Input_Controller.new(self)
 	combo = ["attack_1", "attack_2", "attack_3"]
 	current_HP = HP
+	controller = Input_Controller.new(self)
 
 func _physics_process(delta: float) -> void:
 	if !alive:
 		return
 	super._physics_process(delta)
 	controller.update()
-	print(current_HP)
 
 func _frame_changed():
 	if sprite.frame == 4 and sprite.animation == "attack_1":

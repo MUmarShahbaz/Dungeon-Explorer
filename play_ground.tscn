@@ -1,8 +1,54 @@
-[gd_scene load_steps=2 format=3 uid="uid://do816k2uwh6y2"]
+[gd_scene load_steps=10 format=3 uid="uid://do816k2uwh6y2"]
 
+[ext_resource type="PackedScene" uid="uid://c6i4o40ipc2e2" path="res://Scenes/map/empty_room.tscn" id="1_6g3ri"]
 [ext_resource type="PackedScene" uid="uid://72vo2ogn2dkf" path="res://Scenes/players/knight.tscn" id="1_iu3qw"]
+[ext_resource type="PackedScene" uid="uid://6qdqew7up6hy" path="res://Scenes/map/mob_spawner.tscn" id="2_hm0dn"]
+[ext_resource type="PackedScene" uid="uid://mr6l8jqd55tp" path="res://Scenes/mobs/skeleton_warrior.tscn" id="3_hm0dn"]
+[ext_resource type="PackedScene" uid="uid://dvxoa41wvdq5u" path="res://Scenes/mobs/skeleton_spearman.tscn" id="4_6hfcc"]
+[ext_resource type="PackedScene" uid="uid://cf2aiy3di321n" path="res://Scenes/mobs/plent.tscn" id="5_b814l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6g3ri"]
+size = Vector2(1045, 237)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hm0dn"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6hfcc"]
+normal = Vector2(1, 0)
 
 [node name="Play Ground" type="Node2D"]
 
+[node name="Empty Room" parent="." instance=ExtResource("1_6g3ri")]
+
+[node name="Mob_Spawner" parent="." instance=ExtResource("2_hm0dn")]
+position = Vector2(578, 415)
+mob_scenes = Array[PackedScene]([ExtResource("5_b814l"), ExtResource("3_hm0dn"), ExtResource("4_6hfcc")])
+mob_count = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mob_Spawner"]
+shape = SubResource("RectangleShape2D_6g3ri")
+
 [node name="Knight" parent="." instance=ExtResource("1_iu3qw")]
-position = Vector2(424, 266)
+position = Vector2(586, 81)
+
+[node name="World_Border" type="StaticBody2D" parent="."]
+visible = false
+collision_mask = 6
+
+[node name="right" type="CollisionShape2D" parent="World_Border"]
+position = Vector2(1127, 293)
+shape = SubResource("WorldBoundaryShape2D_hm0dn")
+
+[node name="left" type="CollisionShape2D" parent="World_Border"]
+position = Vector2(28, 293)
+shape = SubResource("WorldBoundaryShape2D_6hfcc")
+
+[node name="up" type="CollisionShape2D" parent="World_Border"]
+position = Vector2(562, 22)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_hm0dn")
+
+[node name="down" type="CollisionShape2D" parent="World_Border"]
+position = Vector2(562, 568)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_6hfcc")

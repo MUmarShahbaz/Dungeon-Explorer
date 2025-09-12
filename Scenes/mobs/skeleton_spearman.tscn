@@ -1,9 +1,11 @@
-[gd_scene load_steps=37 format=3 uid="uid://dvxoa41wvdq5u"]
+[gd_scene load_steps=48 format=3 uid="uid://dvxoa41wvdq5u"]
 
-[ext_resource type="Script" uid="uid://bphpijrxsmfjk" path="res://Scripts/mobs/skeleton_spearman.gd" id="1_15evt"]
+[ext_resource type="Script" uid="uid://dsa3uhridqi7f" path="res://Scripts/mobs/skeleton_spearman.gd" id="1_15evt"]
 [ext_resource type="Texture2D" uid="uid://dnasq3cfygo2k" path="res://Assets/Mobs/Skeleton_Spearman/Attack_1.png" id="2_15evt"]
 [ext_resource type="Texture2D" uid="uid://bq4f38fff0eqw" path="res://Assets/Mobs/Skeleton_Spearman/Attack_2.png" id="3_8fb6s"]
+[ext_resource type="Texture2D" uid="uid://cu4rqgcu1grxy" path="res://Assets/Mobs/Skeleton_Spearman/Dead.png" id="4_ilcec"]
 [ext_resource type="Texture2D" uid="uid://clcr55tc1phvt" path="res://Assets/Mobs/Skeleton_Spearman/Idle.png" id="5_8fb6s"]
+[ext_resource type="Texture2D" uid="uid://darr8ii3rel73" path="res://Assets/Mobs/Skeleton_Spearman/Hurt.png" id="5_p4v2o"]
 [ext_resource type="Texture2D" uid="uid://d0n6dlfsed41k" path="res://Assets/Mobs/Skeleton_Spearman/Run.png" id="6_8fb6s"]
 [ext_resource type="Texture2D" uid="uid://0qdjr5rwobvw" path="res://Assets/Mobs/Skeleton_Spearman/Walk.png" id="7_8fb6s"]
 
@@ -38,6 +40,38 @@ region = Rect2(256, 0, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gc0pk"]
 atlas = ExtResource("3_8fb6s")
 region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpina"]
+atlas = ExtResource("4_ilcec")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvcif"]
+atlas = ExtResource("4_ilcec")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvqnk"]
+atlas = ExtResource("4_ilcec")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hudsy"]
+atlas = ExtResource("4_ilcec")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6xr2"]
+atlas = ExtResource("4_ilcec")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3ja3"]
+atlas = ExtResource("5_p4v2o")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv6f6"]
+atlas = ExtResource("5_p4v2o")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b75fm"]
+atlas = ExtResource("5_p4v2o")
+region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilcec"]
 atlas = ExtResource("5_8fb6s")
@@ -157,6 +191,40 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jpina")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvcif")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvqnk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hudsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6xr2")
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3ja3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv6f6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b75fm")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ilcec")
 }, {
 "duration": 1.0,
@@ -235,6 +303,9 @@ animations = [{
 radius = 9.0
 height = 56.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15evt"]
+size = Vector2(25, 56)
+
 [node name="Skeleton Spearman" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
@@ -245,8 +316,6 @@ VIS = 200.0
 sprite_frames = SubResource("SpriteFrames_0i2gx")
 animation = &"idle"
 autoplay = "idle"
-frame = 2
-frame_progress = 0.890093
 offset = Vector2(7, -31)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
@@ -255,14 +324,26 @@ position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_abfcy")
 
 [node name="Vision_Ray" type="RayCast2D" parent="."]
+visible = false
 target_position = Vector2(100, 0)
 collision_mask = 5
 
-[node name="Obstacle_Ray" type="RayCast2D" parent="."]
+[node name="Obstacle_Check_Left" type="Area2D" parent="."]
 visible = false
-target_position = Vector2(25, 0)
+position = Vector2(-22.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle_Check_Left"]
+shape = SubResource("RectangleShape2D_15evt")
+
+[node name="Obstacle_Check_Right" type="Area2D" parent="."]
+visible = false
+position = Vector2(20.5, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle_Check_Right"]
+shape = SubResource("RectangleShape2D_15evt")
 
 [node name="Attack_1_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 4
 monitoring = false
 
@@ -270,6 +351,7 @@ monitoring = false
 polygon = PackedVector2Array(-1, 8, 11, 0, 40, -9, 47, 8, 39, 23, 12, 15, -1, 8)
 
 [node name="Attack_2_Zone" type="Area2D" parent="."]
+visible = false
 collision_mask = 4
 monitoring = false
 
