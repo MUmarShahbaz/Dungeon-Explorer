@@ -1,8 +1,9 @@
-[gd_scene load_steps=61 format=3 uid="uid://72vo2ogn2dkf"]
+[gd_scene load_steps=62 format=3 uid="uid://72vo2ogn2dkf"]
 
 [ext_resource type="Script" uid="uid://byi7sore2bfx" path="res://Scripts/players/knight.gd" id="1_fow7u"]
 [ext_resource type="Texture2D" uid="uid://dqixo2t44hqwv" path="res://Assets/Players/Knight/Attack 1.png" id="1_fq5p1"]
 [ext_resource type="Texture2D" uid="uid://heklh2j0jvyo" path="res://Assets/Players/Knight/Idle.png" id="2_2heuy"]
+[ext_resource type="Texture2D" uid="uid://y0j87rgwd4yf" path="res://Assets/Players/Knight/Portrait.png" id="2_acorr"]
 [ext_resource type="Texture2D" uid="uid://dlb8vdi0ptian" path="res://Assets/Players/Knight/Attack 2.png" id="3_2heuy"]
 [ext_resource type="Texture2D" uid="uid://bcky4igu5rfbj" path="res://Assets/Players/Knight/Run.png" id="3_2uxei"]
 [ext_resource type="Texture2D" uid="uid://c8sx5inn0qoq4" path="res://Assets/Players/Knight/Attack 3.png" id="4_2uxei"]
@@ -400,6 +401,7 @@ height = 62.0
 [node name="Knight" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_fow7u")
+portrait = ExtResource("2_acorr")
 SPD = 200.0
 HP = 200
 ATK = 20

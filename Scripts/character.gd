@@ -58,5 +58,5 @@ func _animation_finished():
 		hurting = false
 		state_update(default_state)
 
-func state_update(new):
+func state_update(_new):
 	return

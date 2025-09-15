@@ -9,6 +9,8 @@ var current_state
 @export var STM: int = 100
 @export var num_healing_potions:int = 3
 
+var current_STM
+
 func _ready() -> void:
 	add_to_group("players")
 	default_state = states.idle
@@ -77,4 +79,4 @@ func special():
 func heal():
 	if num_healing_potions > 0:
 		num_healing_potions -= 1
-		current_HP += HP*0.75
+		current_HP = min(current_HP + HP*0.75, HP)

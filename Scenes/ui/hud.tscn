@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvxoee863cq50"]
+
+[ext_resource type="Script" uid="uid://bme421gma0pvp" path="res://Scripts/ui/hud.gd" id="1_ateb2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ercd"]
+bg_color = Color(0.00784314, 0, 0, 0.282353)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ateb2"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpdpg"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ateb2")
+
+[node name="Stats" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Character Portrait" type="TextureRect" parent="Stats"]
+texture_filter = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="Bars" type="VBoxContainer" parent="Stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="HP" type="ProgressBar" parent="Stats/Bars"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_styles/background = SubResource("StyleBoxFlat_8ercd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ateb2")
+value = 50.0
+
+[node name="STM" type="ProgressBar" parent="Stats/Bars"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_styles/background = SubResource("StyleBoxFlat_8ercd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kpdpg")
+value = 50.0

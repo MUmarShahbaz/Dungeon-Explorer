@@ -16,7 +16,7 @@ var obstacle_check_distance:int = 25
 
 func _ready() -> void:
 	add_to_group("enemies")
-	default_state = states.patrol
+	default_state = states.attacking
 
 func _physics_process(delta: float) -> void:
 	if !alive:
@@ -25,9 +25,9 @@ func _physics_process(delta: float) -> void:
 	var closest_player = find_player()
 	match  current_state:
 		states.patrol:
-			patrol(delta)
 			if closest_player != null:
 				state_update(states.pursue)
+			patrol(delta)
 		states.pursue:
 			if closest_player == null:
 				state_update(states.patrol)

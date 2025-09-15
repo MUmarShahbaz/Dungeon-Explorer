@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cupgnrbnyggh3"]
+
+[ext_resource type="Script" uid="uid://cqxbd8dbcd5wm" path="res://Characters/Components/scripts/secondary_attack.gd" id="1_sgw36"]
+
+[node name="Secondary Attack" type="Node"]
+script = ExtResource("1_sgw36")
