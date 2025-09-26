@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxkt22yarapof"]
+
+[ext_resource type="Script" uid="uid://5isylss635f1" path="res://Components/Primary/primary.gd" id="1_dkb13"]
+
+[node name="Primary" type="Node"]
+script = ExtResource("1_dkb13")

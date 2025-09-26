@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://csd4eig25xv34"]
+
+[ext_resource type="Script" uid="uid://b7y68rvcdwggx" path="res://Components/HUD/hud.gd" id="1_p300r"]
+[ext_resource type="Texture2D" uid="uid://y0j87rgwd4yf" path="res://Assets/Players/Knight/Portrait.png" id="2_xmdg5"]
+[ext_resource type="Texture2D" uid="uid://bii66eocmqr8i" path="res://Assets/flask.png" id="3_f2d00"]
+[ext_resource type="Texture2D" uid="uid://d3hp07jyi2he1" path="res://Assets/super.png" id="4_t2r50"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xysu"]
+bg_color = Color(1, 0, 0.0235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p300r"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p300r")
+
+[node name="Main" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Profile" type="TextureRect" parent="Main"]
+texture_filter = 2
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("2_xmdg5")
+
+[node name="Bars" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+alignment = 1
+
+[node name="HP" type="ProgressBar" parent="Main/Bars"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 24
+theme_override_styles/fill = SubResource("StyleBoxFlat_3xysu")
+value = 50.0
+
+[node name="STM" type="ProgressBar" parent="Main/Bars"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 24
+theme_override_styles/fill = SubResource("StyleBoxFlat_p300r")
+value = 50.0
+
+[node name="Misc" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+alignment = 1
+
+[node name="Heal  Flasks" type="HBoxContainer" parent="Main/Misc"]
+layout_mode = 2
+
+[node name="Flask Icon" type="TextureRect" parent="Main/Misc/Heal  Flasks"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("3_f2d00")
+
+[node name="Count" type="Label" parent="Main/Misc/Heal  Flasks"]
+layout_mode = 2
+text = "3"
+
+[node name="SP" type="TextureRect" parent="Main/Misc"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("4_t2r50")
+expand_mode = 4
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 43.0
+grow_horizontal = 0
+text = "00:16:00"

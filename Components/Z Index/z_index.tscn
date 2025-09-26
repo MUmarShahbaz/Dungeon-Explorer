@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://baf7rvcp0sry8"]
+
+[ext_resource type="Script" uid="uid://cl1tx0xsrlaa3" path="res://Components/Z Index/z_index.gd" id="1_gwb4y"]
+
+[node name="Z-Index" type="Node"]
+script = ExtResource("1_gwb4y")

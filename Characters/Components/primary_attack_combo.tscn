@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbjpiev65g8d4"]
-
-[ext_resource type="Script" uid="uid://p0wkrwgpuurq" path="res://Characters/Components/scripts/primary_attack_combo.gd" id="1_cmpsa"]
-
-[node name="Primary Attack Combo" type="Node"]
-script = ExtResource("1_cmpsa")

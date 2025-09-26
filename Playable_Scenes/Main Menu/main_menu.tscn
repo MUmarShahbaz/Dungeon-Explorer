@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvkprt7j3n0qm"]
+
+[ext_resource type="Script" uid="uid://cbnr33ewjphdm" path="res://Playable_Scenes/Main Menu/main_menu.gd" id="1_nfug6"]
+[ext_resource type="Texture2D" uid="uid://dld13wyxdc23x" path="res://Assets/bg.png" id="1_xba7y"]
+[ext_resource type="Texture2D" uid="uid://cy3mlyrapqexo" path="res://Assets/isle.png" id="2_8psiv"]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_nfug6")
+map_url = "map.html"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BG" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xba7y")
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -638.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 712.0
+grow_horizontal = 0
+scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(638, 0)
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Map" type="TextureButton" parent="CanvasLayer/Control/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+texture_normal = ExtResource("2_8psiv")
+
+[node name="Play" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 145
+text = "Explore"

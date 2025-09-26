@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://2hvgbudlspwp"]
+
+[ext_resource type="Script" uid="uid://6i2d6jjocgxt" path="res://Rooms/modifiers/mob_spawner/mob_spawner.gd" id="1_6gflx"]
+
+[node name="Mob Spawner" type="Area2D"]
+script = ExtResource("1_6gflx")

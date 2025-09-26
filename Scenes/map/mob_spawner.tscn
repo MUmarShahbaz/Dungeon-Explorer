@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://6qdqew7up6hy"]
-
-[ext_resource type="Script" uid="uid://1tn3o2yqrllo" path="res://Scripts/map/mob_spawner.gd" id="1_5tuon"]
-
-[node name="Mob_Spawner" type="Area2D"]
-monitoring = false
-monitorable = false
-script = ExtResource("1_5tuon")

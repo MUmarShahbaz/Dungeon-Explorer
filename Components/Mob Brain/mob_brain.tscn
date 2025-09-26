@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceu5ut5eg5fj5"]
+
+[ext_resource type="Script" uid="uid://c1nd2jseo4m15" path="res://Components/Mob Brain/mob_brain.gd" id="1_5ha8x"]
+
+[node name="Mob Brain" type="Node"]
+script = ExtResource("1_5ha8x")
